@@ -6,6 +6,7 @@ var logger = require('morgan');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
+var apiRouter = require('./routes/api');
 
 var app = express();
 // const PORT = process.env.PORT || 3007;
@@ -18,7 +19,7 @@ var corsOptions = {
   
 const dotenv = require('dotenv');
 dotenv.config();
-const mysql = require('mysql');
+const mysql = require('mysql2');
 const { wrap } = require('module');
 const dbCon = mysql.createConnection({
     host: process.env.DB_HOST,
@@ -46,6 +47,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
+app.use('/api', apiRouter);
 app.use('/users', usersRouter);
 
 // app.get('/api/getLotto/:id', (req, res) => {
@@ -146,34 +148,6 @@ app.get('/lotto2', function(req, res){
     res.sendFile( path.join(__dirname, '/sat22block.html') )
   } else {
     res.sendFile( path.join(__dirname, 'lotto2/build/index.html') )
-  }
-})
-
-app.use('/lotto3', express.static( path.join(__dirname, 'lotto3/build') ))
-app.get('/lotto3', function(req, res){
-  let result = sync_connection.query("SELECT case when DAYOFWEEK(NOW()) =7 then 'Y' ELSE 'N' end satYN, hour(NOW()) hh, MINUTE(NOW()) mm from dual");
-  let _satYN = result[0].satYN; 
-  let _mm = result[0].mm; 
-  let _hh = result[0].hh; 
-  console.log("#### app 158 #### _satYN :" +_satYN +"/ _mm :"+_mm+"/ _hh :"+_hh);
-  if(_satYN =='Y' && _mm >='20' && _hh >='30'){ //토요일 20시 30분 부터 토요일 자정까지는 게임을 할 수 없습니다
-    res.sendFile( path.join(__dirname, '/sat22block.html') )
-  } else {
-    res.sendFile( path.join(__dirname, 'lotto3/build/index.html') )
-  }
-})
-
-app.use('/lotto4', express.static( path.join(__dirname, 'lotto4/build') ))
-app.get('/lotto4', function(req, res){
-  let result = sync_connection.query("SELECT case when DAYOFWEEK(NOW()) =7 then 'Y' ELSE 'N' end satYN, hour(NOW()) hh, MINUTE(NOW()) mm from dual");
-  let _satYN = result[0].satYN; 
-  let _mm = result[0].mm; 
-  let _hh = result[0].hh; 
-  console.log("#### app 172 #### _satYN :" +_satYN +"/ _mm :"+_mm+"/ _hh :"+_hh);
-  if(_satYN =='Y' && _mm >='20' && _hh >='30'){ //토요일 20시 30분 부터 토요일 자정까지는 게임을 할 수 없습니다
-    res.sendFile( path.join(__dirname, '/sat22block.html') )
-  } else {
-    res.sendFile( path.join(__dirname, 'lotto4/build/index.html') )
   }
 })
 
