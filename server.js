@@ -25,7 +25,7 @@ var myStore = new SequelizeStore({
 // We need to use sessions to keep track of our user's login status
 app.use(
   session({
-    secret: "keyboard cat",
+    secret: "chatC4eiSec#ret",
     store: myStore, // session store object is using
     resave: true,
     saveUninitialized: true,
