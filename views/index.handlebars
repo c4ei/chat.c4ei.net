@@ -15,32 +15,32 @@
     </div>
     {{/unless}}
     {{/if}}
-    <h1 class="center-align">Upgrade Your Team's Productivity</h1>
+    <h1 class="center-align">생산성 향상</h1>
 
     <div class="slider">
       <ul class="slides">
         <li>
-          <img src="/Assets/stockZoom.jpg">
+          {{!-- <img src="/Assets/stockZoom.jpg"> --}}
           <div class="caption left-align">
             <h3>Secure</h3>
-            <h5 class="navy-text text-lighten-3">Peer to Peer Chat with Unique Single Use Room Codes.</h5>
+            <h5 class="navy-text text-lighten-3">고유한 일회용 코드 P2P chat.</h5>
           </div>
         </li>
         <li>
-          <img src="/Assets/stockComputerGuy.jpg">
+          {{!-- <img src="/Assets/stockComputerGuy.jpg"> --}}
           <div class="caption left-align">
             <h3>Free</h3>
-            <h5 class="light grey-text text-lighten-3">Unlimited access for Registered Users.</h5>
+            <h5 class="light grey-text text-lighten-3">등록된 사용자에 대한 무제한 액세스</h5>
           </div>
         </li>
         <li>
-          <img src="/Assets/stockComputer.jpg">
+          {{!-- <img src="/Assets/stockComputer.jpg"> --}}
           <div class="caption left-align">
-            <h3 id="intText">Intuitive</h3>
-            <h5 class="light grey-text text-lighten-3">Simple 3 Step User Interface</h5>
-            <h5 class="light grey-text text-lighten-3">One. Creat a room.</h5>
-            <h5 class="light grey-text text-lighten-3">Two. Share the confrence room number.</h5>
-            <h5 class="light grey-text text-lighten-3">Three. Join the room & chat.</h5>
+            <h3 id="intText">사용방법</h3>
+            <h5 class="light grey-text text-lighten-3">간단한 3단계 사용자 인터페이스</h5>
+            <h5 class="light grey-text text-lighten-3">1. 방을 만들고.</h5>
+            <h5 class="light grey-text text-lighten-3">2. 회의실 UID를 공유합니다.</h5>
+            <h5 class="light grey-text text-lighten-3">3. 방에 참여하고 채팅하십시오.</h5>
           </div>
         </li>
 
@@ -48,9 +48,22 @@
     </div>
     <div class="row">
       <div class="col s4 offset-s4 center-align">
-        <form action="/" method="POST" id="joinForm">
-          <input type="text" name="roomName" placeholder="Room Number">
-          <input type="submit" value="Join Room" name="joinRoom">
+        <script>
+          function jsfn_roomCheck(){
+            let _joinForm =  document.getElementById('joinForm');
+            let _roomName =  document.getElementById('roomName').value;
+            if(_roomName==''||_roomName===undefined){
+              alert('회의실 UID를 입력해 주세요.');
+              document.getElementById('roomName').focus();
+              return;
+            }
+            _joinForm.action = '/';
+            _joinForm.submit();
+          }
+        </script>
+        <form method="POST" id="joinForm">
+          <input type="text" id="roomName" name="roomName" placeholder="Room Number">
+          <input type="button" value="Join Room" name="joinRoom" onclick="jsfn_roomCheck();">
         </form>
         <form action="/" method="POST" , id="createForm">
           <input type="submit" value="Create Room" name="createRoom">
